@@ -1,19 +1,21 @@
-import { IProduct } from '@/models';
+import { GetServerSideProps, NextPage } from 'next';
+import { IProductData } from '@/models';
 import Home from '../components/screens/home/Home'
 
-export default function HomePage(props: IProduct) {
+const HomePage: NextPage<IProductData> = ({products}) => {
+  console.log(products);
   return (
-    <>
-      <Home products = {props}/>
-    </>
+      <Home products = {products}/>
   )
 }
 
-export async function getServerSideProps() {
+export const getServerSideProps: GetServerSideProps<IProductData> = async() => {
   // Fetch data from external API
   const res = await fetch('https://fakestoreapi.com/products?limit=10');
-  const data = await res.json();
+  const products = await res.json();
   // Pass data to the page via props
-  return { props: { data } };
+  return  {props: { products }} ;
 }
+
+export default HomePage;
 

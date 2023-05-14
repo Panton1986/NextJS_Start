@@ -10,3 +10,11 @@ export interface IProduct {
         count: number
     }
 }
+
+export interface IProductData {
+    products: IProduct[]
+}
+
+export interface IProductSingle {
+    product: IProduct
+}
