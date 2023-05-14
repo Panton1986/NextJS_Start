@@ -3,28 +3,26 @@ import Image from 'next/image'
 import styles from './Home.module.scss'
 import Layout from "@/components/layout/Layout"
 import Cards from "@/components/cards/Cards"
+import { IProduct } from "@/models"
 
-const Home: FC = (props) => {
+interface ProductProps {
+  products: IProduct
+}
 
-  console.log(`Hello : ${props}`);
+function Home({products}: ProductProps) {
 
-  return (
+    const productsData = Object.entries(products);
+
+    return (
       <Layout 
       title='Home'
       description='We love cars'
       >
-        <Cards {...props}/>
+          {productsData[0][1].map(product => {
+              <Cards key={product.id} product = {...product}/>
+          })}
       </Layout>
   )
-}
-
-export async function getServerSideProps() {
-  // Fetch data from external API
-  const res = await fetch('https://api.api-ninjas.com/v1/cars?limit=10&make=audi&year=2022');
-  const data = await res.json();
- console.log(data);
-  // Pass data to the page via props
-  return { props: { data } };
 }
 
 export default Home;
